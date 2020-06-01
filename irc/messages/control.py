@@ -14,10 +14,9 @@ from irc.messages.base import IRCBaseMessage
 #   .map(x => `${x.children[1].textContent.trim()} = "${x.children[0].textContent.trim()}"`)
 #   .join('\n')
 # )
-# The last few (600+) were added for ease of use
 
 # Regex for matching the individual parts of an IRC message
-control_message_regex = re.compile("^:([^ ]+) ([0-9]+) ([^ ]+) :(.*)$")
+control_message_regex = re.compile("^:([^ ]+) ([0-9]+) ([^ ]+)( ([^ ]+) )(.*)$")
 
 
 @unique
@@ -189,10 +188,21 @@ class IRCControlMessageType(Enum):
 class IRCControlMessage(IRCBaseMessage):
     """An IRC control message."""
 
-    def __init__(self, server: str, message_type: IRCControlMessageType, target: str, message: str) -> None:
+    def __init__(  # pylint: disable=too-many-arguments
+            self,
+            raw_message: str,
+            server: str,
+            message_type: IRCControlMessageType,
+            target: str,
+            parameter: Optional[str],
+            message: str
+    ) -> None:
+        super().__init__(raw_message)
+
         self.__server = server
         self.__message_type = message_type
         self.__target = target
+        self.__parameter = parameter
         self.__message = message
 
     @property
@@ -211,13 +221,24 @@ class IRCControlMessage(IRCBaseMessage):
         return self.__target
 
     @property
+    def parameter(self) -> Optional[str]:
+        """The message's parameter if set."""
+        return self.__parameter
+
+    @property
     def message(self) -> str:
         """The message itself."""
         return self.__message
 
     def __str__(self) -> str:
         """String representation of the message."""
-        return "MSG {}".format(self.__message)
+        return ":{} {} {}{} {}".format(
+            self.__server,
+            self.__message_type.value,
+            self.__target,
+            " " + self.__parameter if self.__parameter else "",
+            self.__message
+        )
 
     @staticmethod
     def parse(line: str) -> Optional["IRCControlMessage"]:
@@ -226,10 +247,10 @@ class IRCControlMessage(IRCBaseMessage):
         if not match:
             return None
 
-        server, raw_type, target, message = match.groups()
+        server, raw_type, target, _, parameter, message = match.groups()
         try:
             message_type = IRCControlMessageType(raw_type)
         except ValueError:
             return None
 
-        return IRCControlMessage(server, message_type, target, message)
+        return IRCControlMessage(line, server, message_type, target, parameter, message)

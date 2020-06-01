@@ -13,7 +13,7 @@ from time import sleep
 from typing import Generator, Optional, Set, Type
 
 from irc.exception import IRCConnectionException, IRCException, IRCSocketClosedException, IRCSocketException
-from irc.messages import IRCBaseMessage, IRCControlMessage, IRCErrorMessage, IRCMessage
+from irc.messages import IRCBaseMessage, IRCControlMessage, IRCMessage
 from irc.socket import Socket
 
 
@@ -172,7 +172,7 @@ class IRC:  # pylint: disable=too-many-instance-attributes,too-many-arguments
             self.__logger.debug("Server sent %d lines", len(lines))
             for line in lines:
                 # Try to parse the line using all available message parsers
-                parsers: Set[Type[IRCBaseMessage]] = {IRCControlMessage, IRCMessage, IRCErrorMessage}
+                parsers: Set[Type[IRCBaseMessage]] = {IRCControlMessage, IRCMessage}
                 messages = [parser.parse(line) for parser in parsers]
                 # Add each non-null message to the message queue
                 parsed_messages = [message for message in messages if message is not None]
@@ -184,11 +184,6 @@ class IRC:  # pylint: disable=too-many-instance-attributes,too-many-arguments
                         self.send("PONG {}\r\n".format(line.split(" ")[1:]))
                     else:
                         self.__logger.debug("Unhandled message: <%s>", line)
-
-                    # DEBUG:irc.irc:Unhandled message: <:test!~test@traefik.irc JOIN #bot-test>
-                    # DEBUG:irc.irc:Unhandled message: <:irc.example.com 353 test = #bot-test :@alex test>
-                    # :irc.example.com 401 test alex!~alex@traefik.irc :No such nick
-                    # Got error message End of NAMES list
                 else:
                     # Add all parsed messages to the message queue
                     for parsed_message in parsed_messages:

@@ -9,5 +9,4 @@ __package__ = "irc.messages"
 from irc.messages.base import IRCBaseMessage as IRCBaseMessage  # noqa: F401
 from irc.messages.control import IRCControlMessage as IRCControlMessage  # noqa: F401
 from irc.messages.control import IRCControlMessageType as IRCControlMessageType  # noqa: F401
-from irc.messages.error import IRCErrorMessage as IRCErrorMessage  # noqa: F401
 from irc.messages.message import IRCMessage as IRCMessage  # noqa: F401

@@ -14,12 +14,15 @@ class IRCMessage(IRCBaseMessage):
 
     def __init__(  # pylint: disable=too-many-arguments
             self,
+            raw_message: str,
             author: str,
             hostname: str,
             is_notice: bool,
             target: str,
             message: str
     ) -> None:
+        super().__init__(raw_message)
+
         self.__author = author
         self.__hostname = hostname
         self.__is_notice = is_notice
@@ -66,4 +69,4 @@ class IRCMessage(IRCBaseMessage):
 
         author, hostname, type, target, message = match.groups()
         is_notice = type == "NOTICE"
-        return IRCMessage(author, hostname, is_notice, target, message)
+        return IRCMessage(line, author, hostname, is_notice, target, message)
