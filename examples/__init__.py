@@ -27,6 +27,3 @@ parser.add_argument("-u", "--user", required=True, help="Username to use when co
 parser.add_argument("-n", "--nick", required=True, help="Nick to use when connecting to the IRC server")
 parser.add_argument("-g", "--gecos", help="Gecos to use when connecting to the IRC server")
 parser.add_argument("--password", help="Password for the specified user")
-
-# Parse the arguments and execute the chosen command
-options = parser.parse_args()

@@ -5,8 +5,8 @@ import random
 import re
 from datetime import datetime
 
-# Import the parsed CLI options for the example module
-from examples import options
+# Import the CLI options parser
+from examples import parser
 
 # Import the IRC class and the message type
 from irc import IRC
@@ -15,6 +15,9 @@ from irc.messages import IRCMessage
 
 def main() -> None:
     """Main entrypoint of the bot example."""
+    # Parse the arguments and execute the chosen command
+    options = parser.parse_args()
+
     logger = logging.getLogger(__name__)
 
     # Create an IRC instance
