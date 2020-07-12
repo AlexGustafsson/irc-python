@@ -67,7 +67,7 @@ install-dependencies:
 
 # Generate all documents
 documentation:
-	source venv/bin/activate && PYTHONPATH=$(shell pwd) pdoc --force --html --config hljs_style=\'atom-one-light\' --output-dir documentation $(main_module)
+	source venv/bin/activate && PYTHONPATH=$(shell pwd) pdoc --force --html --config hljs_style=\'atom-one-light\' --output-dir documentation $(modules)
 
 # Clean all dynamically created files
 clean:
