@@ -22,6 +22,8 @@ from irc.socket import Socket
 # is an issue with the socket
 default_timeout = 300
 
+version = "1.0.0"
+
 
 class IRC:  # pylint: disable=too-many-instance-attributes,too-many-arguments
     """IRC connector."""
@@ -67,6 +69,11 @@ class IRC:  # pylint: disable=too-many-instance-attributes,too-many-arguments
             message = self.__ingress_messages.get()
             self.__ingress_messages.task_done()
             yield message
+
+    @property
+    def version(self) -> str:
+        """The version of the IRC library."""
+        return version
 
     def connect(self) -> None:
         """Connect to the server."""

@@ -52,7 +52,7 @@ def main() -> None:
             command, _, parameter = match.groups()
             if command == "about":
                 # Send about message
-                irc.send_message(target, "I'm a simple example bot.")
+                irc.send_message(target, "I'm a simple example bot using irc-python version {}.".format(irc.version))
                 irc.send_message(target, "Read more about me on https://github.com/AlexGustafsson/irc-python.")
             elif command == "help":
                 # Send help message
