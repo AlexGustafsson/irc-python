@@ -36,6 +36,8 @@ irc.send_message("#bot-test", "Hello, world!")
 * Low-level socket API built for speed and efficiency
 * Uses typing
 * Handles message splitting etc. automatically
+* Automatic reconnect
+* Heavily analysed using several static analyzers
 
 ##### Examples
 
@@ -44,6 +46,8 @@ There are multiple examples available in the `examples` directory. To run one of
 ```shell
 python3 -m examples.ping --server irc.example.com --user test --nick test
 ```
+
+Some of the examples feature verbose logging to show what's happening. In production, this library is nowhere near as verbose. As this library is using the built-in logging library, logging can also be completely turned off or modified.
 
 ### Contributing
 

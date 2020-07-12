@@ -15,8 +15,6 @@ from irc.messages import IRCMessage
 
 def main() -> None:
     """Main entrypoint of the bot example."""
-    # Log at INFO level or higher
-    logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
 
     # Create an IRC instance

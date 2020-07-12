@@ -1,7 +1,5 @@
 """Example module for the IRC connector."""
 
-import logging
-
 # Import the parsed CLI options for the example module
 from examples import options
 
@@ -12,9 +10,6 @@ from irc.messages import IRCMessage
 
 def main() -> None:
     """Main entrypoint of the ping example."""
-    # Log at INFO level or higher
-    logging.basicConfig(level=logging.INFO)
-
     # Create an IRC instance
     irc = IRC(
         options.server,
